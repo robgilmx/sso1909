@@ -6,23 +6,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>OAuth Server Index</title>
     <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/ksquare.css" />
+    <!-- CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-    <h1 class="page-header">OAuth Server Administration Dashboard </h1>
-    <div class="row">
-        <div class="col-md-12" >
+    <header>    <h1>OAuth Server Administration Dashboard </h1>
+    </header>
+    <div>
+        <div style="float: right">
             <span sec:authorize="isAuthenticated()" style="display: inline-block;">
-                    <a th:href="@{/logout}">Sign Out</a>
-                </span>
+                    <a class="button" th:href="@{/logout}">Sign Out</a>
+            </span>
         </div>
     </div>
 
-    <div style="alignment: center; text-align: center" id="codeDiv">
+    <div style="alignment: center; text-align: center; padding-top: 3em; font-weight: bolder" id="codeDiv">
         <script>
             var searchParams = new URLSearchParams(window.location.search);
             if (searchParams.has('code')){
-                $("#codeDiv").append("<h2>Your code is: "+ searchParams.get('code') +" </h2>")
+                $("#codeDiv").append("<h2><b>Your code is: "+ searchParams.get('code') +"</b> </h2>")
             }
         </script>
     </div>
@@ -42,19 +48,21 @@
                     <th>Actions</th>
                 </tr>
                 <tr th:each="app : ${approvals}">
-                    <td th:value="${app.clientId}"></td>
-                    <td th:value="${app.scope}"></td>
-                    <td th:value="${app.expiresAt}"></td>
-                    <td th:value="${app.scope}"></td>
+                    <td th:value="${app.id}"></td>
+                    <td></td>
+                    <td></td>
+<!--                    <td th:value="${app.scope}"></td>-->
+<!--                    <td th:value="${app.expiresAt}"></td>-->
+<!--                    <td th:value="${app.scope}"></td>-->
                     <td>
                         <form action="/approval/revoke" method="POST">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                            <input type="hidden" name="userId" th:value="${app.userId}"/>
-                            <input type="hidden" name="clientId" th:value="${app.clientId}"/>
-                            <input type="hidden" name="scope" th:value="${app.scope}"/>
-                            <input type="hidden" name="expiresAt" th:value="${#dates.format(app.expiresAt, 'yyyy-MM-dd HH:mm:ss')}"/>
-                            <input type="hidden" name="status" th:value="${app.status}"/>
-                            <input type="hidden" name="lastUpdatedAt" th:value="${#dates.format(app.lastUpdatedAt, 'yyyy-MM-dd HH:mm:ss')}"/>
+<!--                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+<!--                            <input type="hidden" name="userId" th:value="${app.userId}"/>-->
+<!--                            <input type="hidden" name="clientId" th:value="${app.clientId}"/>-->
+<!--                            <input type="hidden" name="scope" th:value="${app.scope}"/>-->
+<!--                            <input type="hidden" name="expiresAt" th:value="${#dates.format(app.expiresAt, 'yyyy-MM-dd HH:mm:ss')}"/>-->
+<!--                            <input type="hidden" name="status" th:value="${app.status}"/>-->
+<!--                            <input type="hidden" name="lastUpdatedAt" th:value="${#dates.format(app.lastUpdatedAt, 'yyyy-MM-dd HH:mm:ss')}"/>-->
                             <button type="submit" class="btn btn-default btn-xs">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
@@ -67,7 +75,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1" sec:authorize="hasRole('ROLE_OAUTH_ADMIN')">
             <h2>Clients</h2>
-            <table class="table table-bordered">
+            <table class="table table-bordered kstable">
                 <tr>
                     <th>Client ID</th>
                     <th>Resource IDs</th>
@@ -77,23 +85,23 @@
                     <th>Actions</th>
                 </tr>
                 <tr th:each="client : ${clientDetails}">
-                    <td th:text="${client.clientId}"></td>
-                    <td th:text="${client.resourceIds}"></td>
+                    <td th:text="${client.id}"></td>
+                    <td th:text="${client.resourceId}"></td>
                     <td th:text="${client.scope}"></td>
-                    <td th:text="${client.authorizedGrantTypes}"></td>
+                    <td th:text="${client.grantTypes}"></td>
                     <td th:text="${client.authorities}"></td>
                     <td>
-                        <a class="btn btn-default btn-xs" th:href="@{/clients/form?client=__${client.clientId}__}">
+                        <a class="btn btn-default btn-xs" th:href="@{/clients/form?client=__${client.id}__}">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        <a class="btn btn-default btn-xs" th:href="@{/clients/__${client.clientId}__/delete}">
+                        <a class="btn btn-default btn-xs" th:href="@{/clients/__${client.id}__/delete}">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="6">
-                        <a class="btn btn-default btn-xs pull-right" href="/clients/form">
+                        <a class="btn btn-default btn-xs pull-right align-content-center" href="/clients/form" >
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </td>
