@@ -1,6 +1,7 @@
 package com.ksquareinc.sso1909.controller;
 
 import com.ksquareinc.sso1909.domain.Client;
+import com.ksquareinc.sso1909.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,8 @@ public class LoginController {
 
   @Autowired
   ApprovalStore approvalStore;
+  @Autowired
+  ClientService clientService;
 
   @RequestMapping("/login")
   public ModelAndView loginPage() {
@@ -46,10 +49,8 @@ public class LoginController {
 
   @RequestMapping("/dashboard")
   public ModelAndView dashboard(Map<String,Object> model, Principal principal){
-    List<Client> clients = new ArrayList<>();
-    clients.add(new Client("client_api", null, "secret", "read, write", "authorization_code","http://localhost:8080/dashboard", "user",12000, 12000, null, "FALSE"));
-    model.put("approvals",approvalStore.getApprovals("admin", "client_api"));
-    model.put("clientDetails",clients);
+    model.put("approvals",approvalStore.getApprovals("admin", "defaultclient"));
+    model.put("clientDetails",clientService.findAll());
     return new ModelAndView("index.html",model);
 
   }

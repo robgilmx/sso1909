@@ -17,7 +17,7 @@ mvn spring-boot:run
 Using the app:
 =============
 
-* Test client id: client_api
+* Test client id: defaultclient
 * Test client secret: secret
 * Test system user: admin
 * Test system user password: admin
@@ -72,3 +72,6 @@ Using the previous example your request header should look like this:
 
 Getting the Token
 -----------------
+
+Now you only need to send the POST request and if everything was done 
+correctly you should receive a JSON response with your authorization token.

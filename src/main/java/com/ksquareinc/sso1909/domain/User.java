@@ -1,29 +1,39 @@
 package com.ksquareinc.sso1909.domain;
 
+import com.ksquareinc.sso1909.domain.enums.RoleEnum;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity 
-@Table(name = "USERS")
-public class User {
+@Table(name = "users")
+public class User implements Serializable {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id; 
 	
 	private String username;
-	
-	private String password;
-	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable( name = "users_role",
-				joinColumns = { @JoinColumn(name = "user_id") },	
-				inverseJoinColumns = { @JoinColumn(name = "role_id") } )
-	private List<UserRole> roles; 
 
-	User() { 
+	@JsonIgnore
+	private String password;
+
+	@ElementCollection(targetClass=RoleEnum.class)
+	@Enumerated(EnumType.STRING)
+	@CollectionTable(name="user_role")
+	@Column
+	private List<RoleEnum> roles;
+
+	private Boolean isLocked = false;
+
+	private Boolean isEnabled = true;
+
+
+	public User() {
 	} 
 
-	public User(String username, String password, List<UserRole> roles) { 
+	public User(String username, String password, List<RoleEnum> roles) {
 		this.username = username; 
 		this.password = password; 
 		this.roles = roles; 
@@ -53,12 +63,27 @@ public class User {
 		this.password = password; 
 	} 
 
-	public List<UserRole> getRoles() { 
+	public List<RoleEnum> getRoles() {
 		return roles; 
 	} 
 
-	public void setRoles(List<UserRole> roles) { 
+	public void setRoles(List<RoleEnum> roles) {
 		this.roles = roles; 
-	} 
+	}
 
+	public Boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(Boolean locked) {
+		isLocked = locked;
+	}
+
+	public Boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		isEnabled = enabled;
+	}
 }

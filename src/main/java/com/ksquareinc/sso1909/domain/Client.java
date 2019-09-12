@@ -4,19 +4,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
 
-@Entity
-@Table(name = "oauth_client_details")
-public class Client {
+
+@Entity(name = "oauth_client_details")
+public class Client implements Serializable {
 
 	@Id
-	@Column(name="client_id")
+	@Column(name="client_id", unique = true, nullable = false)
 	private String id;
 	
 	@Column(name="resource_ids")
 	private String resourceId;
 	
-	@Column(name="client_secret")
+	@Column(name="client_secret", nullable = false)
 	private String secret;
 	
 	@Column(name="scope")
@@ -61,6 +63,31 @@ public class Client {
 		this.refreshTokenValidity = refreshTokenValidity;
 		this.additionalInfo = additionalInfo;
 		this.autoapprove = autoapprove;
+	}
+
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Client client = (Client) o;
+		return accessTokenValidity == client.accessTokenValidity &&
+				refreshTokenValidity == client.refreshTokenValidity &&
+				id.equals(client.id) &&
+				Objects.equals(resourceId, client.resourceId) &&
+				secret.equals(client.secret) &&
+				Objects.equals(scope, client.scope) &&
+				Objects.equals(grantTypes, client.grantTypes) &&
+				Objects.equals(redirectUri, client.redirectUri) &&
+				Objects.equals(authorities, client.authorities) &&
+				Objects.equals(additionalInfo, client.additionalInfo) &&
+				Objects.equals(autoapprove, client.autoapprove);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, resourceId, secret, scope, grantTypes, redirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInfo, autoapprove);
 	}
 
 	public String getId() {
@@ -149,5 +176,24 @@ public class Client {
 
 	public void setAutoapprove(String autoapprove) {
 		this.autoapprove = autoapprove;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return "Client{" +
+				"id='" + id + '\'' +
+				", resourceId='" + resourceId + '\'' +
+				", secret='" + secret + '\'' +
+				", scope='" + scope + '\'' +
+				", grantTypes='" + grantTypes + '\'' +
+				", redirectUri='" + redirectUri + '\'' +
+				", authorities='" + authorities + '\'' +
+				", accessTokenValidity=" + accessTokenValidity +
+				", refreshTokenValidity=" + refreshTokenValidity +
+				", additionalInfo='" + additionalInfo + '\'' +
+				", autoapprove='" + autoapprove + '\'' +
+				'}';
+	}
+
+
 }
