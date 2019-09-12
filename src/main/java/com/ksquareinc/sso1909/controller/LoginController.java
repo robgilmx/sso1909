@@ -5,9 +5,13 @@ import com.ksquareinc.sso1909.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.approval.Approval;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.ApprovalStoreUserApprovalHandler;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import static java.util.Arrays.asList;
 
 @RestController
 public class LoginController {
@@ -27,6 +34,8 @@ public class LoginController {
   ApprovalStore approvalStore;
   @Autowired
   ClientService clientService;
+  @Autowired
+  private TokenStore tokenStore;
 
   @RequestMapping("/login")
   public ModelAndView loginPage() {
@@ -48,10 +57,27 @@ public class LoginController {
   }
 
   @RequestMapping("/dashboard")
-  public ModelAndView dashboard(Map<String,Object> model, Principal principal){
-    model.put("approvals",approvalStore.getApprovals("admin", "defaultclient"));
-    model.put("clientDetails",clientService.findAll());
+  public ModelAndView dashboard(HttpServletRequest request, Map<String,Object> model,Principal principal){
+    try{
+      List<Approval> approvals=clientService.findAll().stream()
+              .map(clientDetails -> approvalStore.getApprovals(principal.getName(),clientDetails.getId()))
+              .flatMap(Collection::stream)
+              .collect(Collectors.toList());
+      model.put("approvals",approvals);
+      model.put("clientDetails",clientService.findAll());
+    }catch (NullPointerException npe) {
+      System.err.println("Illegal Access to dashboard");
+    }
     return new ModelAndView("index.html",model);
-
   }
+
+  @RequestMapping(value="/approval/revoke",method= RequestMethod.POST)
+  public ModelAndView revokApproval(@ModelAttribute Approval approval){
+
+    approvalStore.revokeApprovals(asList(approval));
+    tokenStore.findTokensByClientIdAndUserName(approval.getClientId(),approval.getUserId())
+            .forEach(tokenStore::removeAccessToken) ;
+    return new ModelAndView("redirect:/");
+  }
+
 }

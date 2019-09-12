@@ -28,7 +28,7 @@
         <script>
             var searchParams = new URLSearchParams(window.location.search);
             if (searchParams.has('code')){
-                $("#codeDiv").append("<h2><b>Your code is: "+ searchParams.get('code') +"</b> </h2>")
+                $("#codeDiv").append("<h2><b>Your OAUTH2 code is: "+ searchParams.get('code') +"</b> </h2>")
             }
         </script>
     </div>
@@ -59,9 +59,7 @@
                             <input type="hidden" name="userId" th:value="${app.userId}"/>
                             <input type="hidden" name="clientId" th:value="${app.clientId}"/>
                             <input type="hidden" name="scope" th:value="${app.scope}"/>
-                            <input type="hidden" name="expiresAt" th:value="${#dates.format(app.expiresAt, 'yyyy-MM-dd HH:mm:ss')}"/>
                             <input type="hidden" name="status" th:value="${app.status}"/>
-                            <input type="hidden" name="lastUpdatedAt" th:value="${#dates.format(app.lastUpdatedAt, 'yyyy-MM-dd HH:mm:ss')}"/>
                             <button type="submit" class="btn btn-default btn-xs">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
@@ -100,7 +98,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="6" style="display: none">
                         <a class="btn btn-default btn-xs pull-right align-content-center" href="/clients/form" >
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
