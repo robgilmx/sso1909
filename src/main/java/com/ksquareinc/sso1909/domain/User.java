@@ -25,9 +25,9 @@ public class User implements Serializable {
 	@Column
 	private List<RoleEnum> roles;
 
-	private Boolean isLocked = false;
+	private Boolean locked = false;
 
-	private Boolean isEnabled = true;
+	private Boolean enabled = true;
 
 
 	public User() {
@@ -72,18 +72,18 @@ public class User implements Serializable {
 	}
 
 	public Boolean isLocked() {
-		return isLocked;
+		return locked;
 	}
 
 	public void setLocked(Boolean locked) {
-		isLocked = locked;
+		this.locked = locked;
 	}
 
 	public Boolean isEnabled() {
-		return isEnabled;
+		return enabled;
 	}
 
 	public void setEnabled(Boolean enabled) {
-		isEnabled = enabled;
+		this.enabled = enabled;
 	}
 }

@@ -18,9 +18,9 @@ Using the app:
 =============
 
 * Test client id: defaultclient
-* Test client secret: secret
+* Test client secret: KsquareChangeThis
 * Test system user: admin
-* Test system user password: admin
+* Test system user password: KsquareChangeThisPassword
 
 
 To get an access token you have to need to call the "oauth/authorize" page in your browser but specifying an application client, 

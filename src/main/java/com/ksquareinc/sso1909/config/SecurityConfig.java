@@ -17,15 +17,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.sql.DataSource;
+
 @Configuration
 @EnableWebSecurity
-@Order(2)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
+    @Autowired
+    private DataSource dataSource;
+
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private transient PasswordEncoder passwordEncoder;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -53,10 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder.encode("admin"))
-                .roles("ADMIN");
+        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("select username, password, enabled"
+                + " from users where username=?")
+                .authoritiesByUsernameQuery("select username, roles "
+                        + "from users NATURAL JOIN user_role where username=?")
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
