@@ -56,7 +56,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsServiceImpl;
 
     @Value("${security.signing-key}")
     private String signingKey;
@@ -68,18 +68,6 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
-        /*        try {
-            clients
-                    .jdbc(dataSource).withClient("defaultclient")
-                    .authorizedGrantTypes("authorization_code")
-                    .authorities("USER")
-                    .scopes("read", "write")
-                    .secret(passwordEncoder.encode("ksquare"))
-                    .redirectUris("http://localhost:8080/dashboard")
-                    .and().build();
-        } catch (ClientAlreadyExistsException cae) {
-            clients.jdbc(dataSource);
-        }*/
     }
 
     @Override
@@ -104,7 +92,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         endpoints.tokenStore(tokenStore());
         endpoints.approvalStore(approvalStore());
         endpoints.authenticationManager(authenticationManager);
-        endpoints.userDetailsService(userDetailsService);
+        endpoints.userDetailsService(userDetailsServiceImpl);
+        endpoints.reuseRefreshTokens(false);
     }
 
 
@@ -127,6 +116,8 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore());
         defaultTokenServices.setSupportRefreshToken(true);
+        defaultTokenServices.setRefreshTokenValiditySeconds(129600);
+        defaultTokenServices.setReuseRefreshToken(false);
         return defaultTokenServices;
     }
 }

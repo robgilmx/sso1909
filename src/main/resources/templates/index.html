@@ -14,10 +14,12 @@
 </head>
 <body>
 <div class="container">
-    <header>    <h1>OAuth Server Administration Dashboard </h1>
+    <header>
+       <h1><a href="/"><img src="favicon.ico" height="36" width="36" style="padding-bottom: 1px"></a> OAuth Server Administration Dashboard </h1>
     </header>
     <div>
         <div style="float: right">
+            <a class="button" th:href="@{/}">Home</a>
             <span sec:authorize="isAuthenticated()" style="display: inline-block;">
                     <a class="button" th:href="@{/logout}">Sign Out</a>
             </span>
@@ -34,7 +36,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 col-md-offset-3" sec:authorize="isAuthenticated()" >
             <h2>Approvals</h2>
 
             <p>
@@ -70,7 +72,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-10 col-md-offset-1" sec:authorize="hasRole('ADMIN')">
+        <div class="col-md-10 col-md-offset-1 align-center" sec:authorize="!isAuthenticated()">
+            <h3>You have no authorization to see this page contents.</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1 " sec:authorize="hasRole('ADMIN')">
             <h2>Clients</h2>
             <table class="table table-bordered kstable">
                 <tr>

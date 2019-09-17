@@ -5,8 +5,8 @@ INSERT INTO oauth_client_details
 (client_id, client_secret, scope, authorized_grant_types,
  authorities, access_token_validity, refresh_token_validity, web_server_redirect_uri)
 VALUES
-('defaultclient', '$2a$10$V1fb2.rr7/7wnFueyT37N.86qqJS/LzqVURy5kKXq.d5KiAgvmylu', 'read,write,trust','authorization_code',
- 'USER', 1800, 2592000, 'http://localhost:8080/dashboard') ON CONFLICT (client_id) DO NOTHING;
+('defaultclient', '$2a$10$V1fb2.rr7/7wnFueyT37N.86qqJS/LzqVURy5kKXq.d5KiAgvmylu', 'read,write,trust','authorization_code,refresh_token',
+ 'USER', 1800, 129600, 'http://localhost:8080/dashboard') ON CONFLICT (client_id) DO NOTHING;
 
 INSERT INTO users (id, username, "password", "enabled","locked")
 VALUES ('1', 'admin', '$2a$10$v1FVssx3MF.QrGDhFzL6eu9NZn2KZrXE6FaYglAUINSDRrFO.bvsq', 'true', 'true')

@@ -6,13 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service("clientsService")
 @Transactional
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl implements ClientService, Serializable {
 
     @Autowired
     ClientRepository clientRepository;

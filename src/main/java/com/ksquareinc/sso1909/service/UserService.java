@@ -1,10 +1,12 @@
 package com.ksquareinc.sso1909.service;
 
 import com.ksquareinc.sso1909.domain.User;
+
+import java.io.Serializable;
 import java.util.List;
 
 
-public interface UserService {
+public interface UserService extends Serializable {
 	List<User> getUsers();
 	User getUser(Long id);
 	User getUser(String username);

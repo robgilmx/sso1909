@@ -1,9 +1,6 @@
 package com.ksquareinc.sso1909.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -44,8 +41,11 @@ public class Client implements Serializable {
 	
 	@Column(name="autoapprove")
 	private String autoapprove;
-	
-	public Client() {
+
+	@Transient
+    private static final long serialVersionUID = 1L;
+
+    public Client() {
 		
 	}
 	

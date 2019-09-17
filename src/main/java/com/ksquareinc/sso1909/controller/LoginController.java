@@ -3,6 +3,8 @@ package com.ksquareinc.sso1909.controller;
 import com.ksquareinc.sso1909.domain.Client;
 import com.ksquareinc.sso1909.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.asList;
 
 @RestController
+@Scope(proxyMode= ScopedProxyMode.TARGET_CLASS, value="session")
 public class LoginController {
 
   @Autowired

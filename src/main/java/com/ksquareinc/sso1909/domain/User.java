@@ -19,7 +19,7 @@ public class User implements Serializable {
 	@JsonIgnore
 	private String password;
 
-	@ElementCollection(targetClass=RoleEnum.class)
+	@ElementCollection(targetClass=RoleEnum.class, fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	@CollectionTable(name="user_role")
 	@Column
@@ -29,6 +29,8 @@ public class User implements Serializable {
 
 	private Boolean enabled = true;
 
+    @Transient
+    private static final long serialVersionUID = 1L;
 
 	public User() {
 	} 
