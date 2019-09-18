@@ -1,5 +1,7 @@
 package com.ksquareinc.sso1909.domain;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,6 +18,7 @@ public class Client implements Serializable {
 	private String resourceId;
 	
 	@Column(name="client_secret", nullable = false)
+	@JsonIgnore
 	private String secret;
 	
 	@Column(name="scope")

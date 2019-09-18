@@ -33,7 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/images/**", "/js/**", "/favicon.ico");
+        web.ignoring().antMatchers("/css/**", "/images/**", "/js/**", "/favicon.ico",
+                "/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
     }
 
     @Override
@@ -42,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/", "/csrf", "/v2/api-docs", "/swagger-resources/configuration/ui", "/configuration/ui", "/swagger-resources", "/swagger-resources/configuration/security", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
                 .antMatchers("/","/login","/logout.do", "/anon", "/health", "/dashboard").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +31,6 @@ import java.util.stream.Collectors;
 import static java.util.Arrays.asList;
 
 @RestController
-@Scope(proxyMode= ScopedProxyMode.TARGET_CLASS, value="session")
 public class LoginController {
 
   @Autowired
@@ -40,16 +40,19 @@ public class LoginController {
   @Autowired
   private TokenStore tokenStore;
 
-  @RequestMapping("/login")
+  @ApiIgnore
+  @RequestMapping(value = "/login",method = RequestMethod.GET)
   public ModelAndView loginPage() {
     return new ModelAndView("login");
   }
 
-  @RequestMapping("/")
+  @ApiIgnore
+  @RequestMapping(value = "/", method = RequestMethod.GET)
   public ModelAndView home() {
     return new ModelAndView("home");
   }
 
+  @ApiIgnore
   @RequestMapping(value="/logout", method = RequestMethod.GET)
   public ModelAndView logoutPage (HttpServletRequest request, HttpServletResponse response) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -59,7 +62,8 @@ public class LoginController {
     return new ModelAndView("redirect:/");
   }
 
-  @RequestMapping("/dashboard")
+  @ApiIgnore
+  @RequestMapping(value = "/dashboard")
   public ModelAndView dashboard(HttpServletRequest request, Map<String,Object> model,Principal principal){
     try{
       List<Approval> approvals=clientService.findAll().stream()
@@ -75,7 +79,7 @@ public class LoginController {
   }
 
   @RequestMapping(value="/approval/revoke",method= RequestMethod.POST)
-  public ModelAndView revokApproval(@ModelAttribute Approval approval){
+  public ModelAndView revokeApproval(@ModelAttribute Approval approval){
 
     approvalStore.revokeApprovals(asList(approval));
     tokenStore.findTokensByClientIdAndUserName(approval.getClientId(),approval.getUserId())
