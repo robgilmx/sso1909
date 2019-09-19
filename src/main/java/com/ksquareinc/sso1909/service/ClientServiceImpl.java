@@ -1,5 +1,6 @@
 package com.ksquareinc.sso1909.service;
 
+import com.ksquareinc.sso1909.config.ResourceServerConfiguration;
 import com.ksquareinc.sso1909.domain.Client;
 import com.ksquareinc.sso1909.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,11 @@ public class ClientServiceImpl implements ClientService, Serializable {
 
     @Override
     public Client save(Client client) {
-        return clientRepository.save(client);
+        if (!client.getId().equals(ResourceServerConfiguration.defaultClient)){
+            return clientRepository.save(client);
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -37,12 +42,16 @@ public class ClientServiceImpl implements ClientService, Serializable {
 
     @Override
     public void delete(Client client) {
-        clientRepository.delete(client);
+        if (!client.getId().equals(ResourceServerConfiguration.defaultClient)){
+            clientRepository.delete(client);
+        }
     }
 
     @Override
     public void deleteById(String id) {
-        clientRepository.deleteById(id);
+        if (!id.equals(ResourceServerConfiguration.defaultClient)) {
+            clientRepository.deleteById(id);
+        }
     }
 
     @Override

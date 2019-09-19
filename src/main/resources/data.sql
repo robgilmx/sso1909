@@ -9,7 +9,7 @@ VALUES
  'USER', 1800, 129600, 'http://localhost:8080/dashboard') ON CONFLICT (client_id) DO NOTHING;
 
 INSERT INTO users (id, username, "password", "enabled","locked")
-VALUES ('1', 'admin', '$2a$10$v1FVssx3MF.QrGDhFzL6eu9NZn2KZrXE6FaYglAUINSDRrFO.bvsq', 'true', 'true')
+VALUES ('1', 'admin', '$2a$10$v1FVssx3MF.QrGDhFzL6eu9NZn2KZrXE6FaYglAUINSDRrFO.bvsq', 'true', 'false')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO user_role (users_id, roles)

@@ -14,6 +14,10 @@ To start the project just enter de following command in your terminal/console. (
 
 mvn spring-boot:run
 
+mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://192.168.241.0:5432/ksso"
+
+docker 
+
 Using the app:
 =============
 

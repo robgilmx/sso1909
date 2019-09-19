@@ -2,21 +2,37 @@ package com.ksquareinc.sso1909.domain;
 
 import com.ksquareinc.sso1909.domain.enums.RoleEnum;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.TableGenerator;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity 
 @Table(name = "users")
 public class User implements Serializable {
-	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@TableGenerator(
+			name = "usersGenerator",
+			allocationSize = 1,
+			initialValue = 1)
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "usersGenerator")
 	private Long id; 
 	
 	private String username;
 
-	@JsonIgnore
 	private String password;
 
 	@ElementCollection(targetClass=RoleEnum.class, fetch = FetchType.EAGER)
@@ -57,11 +73,11 @@ public class User implements Serializable {
 		this.username = username; 
 	} 
 
-	public String getPassword() { 
+	public String getPassword() {
 		return password; 
 	} 
 
-	public void setPassword(String password) { 
+	public void setPassword(String password) {
 		this.password = password; 
 	} 
 

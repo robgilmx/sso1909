@@ -25,6 +25,13 @@
             </span>
         </div>
     </div>
+    <div sec:authorize="isAuthenticated()" style="alignment: center; text-align: center; padding-top: 3em; font-weight: bolder">
+        <h1>Welcome
+            <span th:text="${#authentication?.principal?.username != null} ? ${#authentication?.principal?.username}">
+            The value of the "name" property of the authentication object should appear here.
+        </span>
+            !</h1>
+    </div>
 
     <div style="alignment: center; text-align: center; padding-top: 3em; font-weight: bolder" id="codeDiv">
         <script>
@@ -77,7 +84,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-10 col-md-offset-1 " sec:authorize="hasRole('ADMIN')">
+        <div class="col-md-10 col-md-offset-1 "
+             sec:authorize="hasAuthority('ROLE_ADMIN')">
             <h2>Clients</h2>
             <table class="table table-bordered kstable">
                 <tr>
@@ -96,10 +104,10 @@
                     <td th:text="${client.grantTypes}"></td>
                     <td th:text="${client.authorities}"></td>
                     <td>
-                        <a class="btn btn-default btn-xs" th:href="@{/clients/form?client=__${client.id}__}">
+                        <a th:if="${client.id} != 'defaultclient'" class="btn btn-default btn-xs" th:href="@{/clients/form?client=__${client.id}__}">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        <a class="btn btn-default btn-xs" th:href="@{/clients/__${client.id}__/delete}">
+                        <a  th:if="${client.id} != 'defaultclient'" class="btn btn-default btn-xs" th:href="@{/clients/__${client.id}__/delete}">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
                     </td>

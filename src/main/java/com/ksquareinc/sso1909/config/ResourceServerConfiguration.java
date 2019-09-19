@@ -14,12 +14,14 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 @Configuration
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
+  public static String defaultClient = "defaultclient";
+
   @Autowired
   private ResourceServerTokenServices tokenServices;
 
   @Override
   public void configure(ResourceServerSecurityConfigurer resources)throws Exception{
-    resources.resourceId("defaultclient");
+    resources.resourceId(defaultClient);
     resources.tokenServices(tokenServices);
   }
 

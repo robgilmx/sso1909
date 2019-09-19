@@ -15,12 +15,16 @@ public class UserDetails implements org.springframework.security.core.userdetail
     private Collection<? extends GrantedAuthority> authorities;
     private String password;
     private String username;
+    private boolean enabled;
+    private boolean locked;
 
 
     public UserDetails(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.authorities = translate(user.getRoles());
+        this.enabled = user.isEnabled();
+        this.locked = user.isLocked();
     }
 
 
@@ -58,7 +62,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !locked;
     }
 
     @Override
@@ -68,7 +72,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
 }
