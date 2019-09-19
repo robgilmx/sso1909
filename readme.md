@@ -14,24 +14,34 @@ To start the project just enter de following command in your terminal/console. (
 
 mvn spring-boot:run
 
-mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://[database_url_port]/[database_name]"
+mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://[database_url_port]/[database_name],[other_spring_boot_args]"
 
 or 
 
-java -jar target/sso1909-0.0.1-SNAPSHOT.war -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://[database_url_port]/[database_name]"
+java -jar target/sso1909-0.0.1-SNAPSHOT.war -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://[database_url_port]/[database_name],[other_spring_boot_args]"
 
 example:
 mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://192.168.241.0/ksso"
 
-Docker Run Example:  docker run -p 8080:8080 -it ks-sso mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://192.168.241.0:5432/ksso"
-
-
 database variables: 
-
 --spring.datasource.url,
 --spring.datasource.username,
 --spring.datasource.password,
 --spring.datasource.platform
+
+Running the Project with docker:
+====================
+Download the repository: docker pull ksquarergil/ks-sso
+
+Docker Run Example:  docker run -p 8080:8080 -it ksquarergil/ks-sso
+
+Run's environment variables (with default values): 
+
+* datasource_url=jdbc:postgresql://localhost:5432/ksso
+* datasource_usr=ssomng
+* datasource_psw=@qr3&wrNXNU!J7P(
+* datasource_ptf=postgres
+* server_port=8080
 
 Using the app:
 =============
