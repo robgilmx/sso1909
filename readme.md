@@ -14,9 +14,22 @@ To start the project just enter de following command in your terminal/console. (
 
 mvn spring-boot:run
 
-mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://192.168.241.0:5432/ksso"
+mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://[database_url_port]/[database_name]"
 
-docker 
+or 
+
+java -jar target/sso1909-0.0.1-SNAPSHOT.war -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://[database_url_port]/[database_name]"
+
+example:
+mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://192.168.241.0/ksso"
+
+
+database variables: 
+
+--spring.datasource.url,
+--spring.datasource.username,
+--spring.datasource.password,
+--spring.datasource.platform
 
 Using the app:
 =============
