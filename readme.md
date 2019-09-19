@@ -23,6 +23,8 @@ java -jar target/sso1909-0.0.1-SNAPSHOT.war -Dspring-boot.run.arguments="--sprin
 example:
 mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://192.168.241.0/ksso"
 
+Docker Run Example:  docker run -p 8080:8080 -it ks-sso mvn spring-boot:run -Dspring-boot.run.arguments="--spring.datasource.url=jdbc:postgresql://192.168.241.0:5432/ksso"
+
 
 database variables: 
 
