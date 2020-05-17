@@ -60,15 +60,15 @@ http://[host_url]/oauth/authorize?client_id=[client_id]&response_type=code&redir
 
 In your browser you should see an basic login page, use your system user credentials an access the system.
 
-This will guide you to an permissions page, this will give it access to utilize your endpoint to the extent you want it, 
+This will guide you to a permission page, this will give it accesses to utilize your endpoint to the extent you want it, 
 once you selected the client permissions click the "Authorize" button. 
 
 If everything is alright a new page should load and with a generated authorization code, it will show in the navigation 
-bar Url in your browser and also inside the page with a text like: "Your code is: XXXXXX".
+bar Url in your browser and inside the page with a text like: "Your code is: XXXXXX".
 Copy this code as we will need it for the next step.
 
 Once you got your code, open Postman or the HTTP request client of your preference.
-To get our authorization token we need to make a POST request to to call the "oauth/token" page in your browser.
+To get our authorization token we need to make a POST request to call the "oauth/token" page in your browser.
 For security we need to add the following to the request:
 * Uri Params
 * Authentication headers
@@ -92,7 +92,7 @@ For this we are gonna use our client id and secret joined by a single colon (:) 
 with the Base64 scheme. 
 For example:  client_id:secret    --- gets encoded to --->     Y2xpZW50X2lkOnBhc3N3b3Jk
 
-Once we got this code we will add a header to our Post request with a key called "Authorization" and its value will be 
+Once we got this code we will add a header to our Post requests with a key called "Authorization" and its value will be 
 as following: 
 "Basic [base64_credentials_code]". 
 
@@ -102,5 +102,5 @@ Using the previous example your request header should look like this:
 Getting the Token
 -----------------
 
-Now you only need to send the POST request and if everything was done 
-correctly you should receive a JSON response with your authorization token.
+Now you only need to send the POST request and if everything is correct 
+you should receive a JSON response with your authorization token.

@@ -9,6 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ksquare login</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/login.js"></script>
 
     <!-- Vendor CSS -->
     <link href="css/animate.min.css" rel="stylesheet" />
@@ -42,13 +44,22 @@
         </label>
     </div>
 
-    <div th:if="${error == true}" class="has-error">
+    <div th:with="error=${#request.getParameter('error') != null}" th:if="${error == true}" class="has-error">
+        <label class="control-label">
+            Some of your info isn't correct. Please try again. - KS
+        </label>
+    </div>
+    <div id="error-div" class="has-error">
         <label class="control-label">
             Some of your info isn't correct. Please try again.
         </label>
     </div>
-
-    <div th:if="${blocked}" class="has-error">
+    <div th:with="blocked=${#request.getParameter('blocked') != null}"  th:if="${blocked}" class="has-error">
+        <label class="control-label">
+            This account is blocked. Please contact your administrator. - KS
+        </label>
+    </div>
+    <div id="blocked-div" class="has-error">
         <label class="control-label">
             This account is blocked. Please contact your administrator.
         </label>
