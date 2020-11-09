@@ -12,9 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.Role;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -138,6 +141,24 @@ public class UserController {
         logger.info("Deleted user " + username);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @RequestMapping(value = "/me", method = RequestMethod.GET,
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAnyAuthority('ROLE_ADMIN')")
+    @ApiOperation(value = "me",
+            notes = "Deletes a user. Receives the name of the user to delete")
+    public ResponseEntity<?> getUserInfo() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO userDTO = new UserDTO();
+        List<RoleEnum> roleEnums = new ArrayList<>();
+        auth.getAuthorities().stream().forEach(grantedAuthority -> {
+            try {
+                roleEnums.add( RoleEnum.valueOf(grantedAuthority.getAuthority()));
+            }catch (IllegalArgumentException ignored){
+            }
+        });
+        userDTO.setRoles(roleEnums);
+        userDTO.setUsername(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
 
 }

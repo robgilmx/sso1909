@@ -33,12 +33,15 @@ import static java.util.Arrays.asList;
 @RestController
 public class LoginController {
 
-  @Autowired
-  ApprovalStore approvalStore;
-  @Autowired
-  ClientService clientService;
-  @Autowired
-  private TokenStore tokenStore;
+  private final ApprovalStore approvalStore;
+  private final ClientService clientService;
+  private final TokenStore tokenStore;
+
+  public LoginController(ApprovalStore approvalStore, ClientService clientService, TokenStore tokenStore) {
+    this.approvalStore = approvalStore;
+    this.clientService = clientService;
+    this.tokenStore = tokenStore;
+  }
 
   @ApiIgnore
   @RequestMapping(value = "/login",method = RequestMethod.GET)

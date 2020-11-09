@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService, Serializable {
 	public User getUser(Long id) {
 		Optional<User> optionalUser;
 		optionalUser = userRepository.findById(id);
-		return (optionalUser.get());
+		return (optionalUser.orElse(null));
 	}
 
 	@Override
@@ -69,9 +69,7 @@ public class UserServiceImpl implements UserService, Serializable {
 		List<User> existingUsers = new ArrayList<User>();
 		userRepository.findAll().iterator().forEachRemaining(existingUsers::add);
 		for (User user : existingUsers) {
-			if(usernameList.contains(user.getUsername())) {
-				usernameList.remove(user.getUsername());
-			}
+			usernameList.remove(user.getUsername());
 		}
 		return usernameList;
 	}

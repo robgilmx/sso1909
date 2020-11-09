@@ -96,7 +96,7 @@ Once we got this code we will add a header to our Post requests with a key calle
 as following: 
 "Basic [base64_credentials_code]". 
 
-Using the previous example your request header should look like this: 
+Using the previpero ous example your request header should look like this: 
 "Authorization: Basic Y2xpZW50X2lkOnBhc3N3b3Jk"
 
 Getting the Token

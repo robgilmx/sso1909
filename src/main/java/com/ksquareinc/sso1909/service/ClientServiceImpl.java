@@ -37,7 +37,7 @@ public class ClientServiceImpl implements ClientService, Serializable {
     public Client findById(String id) {
         Optional<Client> clientOptional;
         clientOptional = clientRepository.findById(String.valueOf(id));
-        return clientOptional.get();
+        return clientOptional.orElse(null);
     }
 
     @Override
