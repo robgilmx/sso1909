@@ -4,7 +4,7 @@ Ksquare SSO
 For this project to work you will need a Postgres database, the default configuration is: 
 * A localhost server running in port 5432.
 * A database named "ksso".
-* An postgres user named "ssomng" with the following password: "@qr3&wrNXNU!J7P("
+* An postgres user and password to be set in the configuration file
 * This database configurations can be changed in the "application.properties" file.
 
 Running the Project:
